@@ -64,11 +64,10 @@ runs:
         else
           shasum -a 256 -c "$archive.sha256"
         fi
-        if [ "$RUNNER_OS" = Windows ]; then
-          unzip -q "$archive"
-        else
-          tar -xzf "$archive"
-        fi
+        case "$archive" in
+          *.zip) unzip -q "$archive" ;;
+          *) tar -xzf "$archive" ;;
+        esac
         echo "$install_dir/git-koi-$version-$target" >> "$GITHUB_PATH"
     - name: Collect the account snapshot
       shell: bash
